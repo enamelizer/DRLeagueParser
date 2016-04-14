@@ -1,5 +1,5 @@
 # DRLeagueParser
-A parser for Dirt Rally results
+A parser for Dirt Rally league results
 
 Some basic instructions, more detailed docs are coming
 
