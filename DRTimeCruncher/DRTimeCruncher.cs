@@ -211,7 +211,7 @@ namespace DRTimeCruncher
             OverallTime = overallTime;
             OverallDiffFirst = overallDiffFirst;
 
-			CalculatedOverallTime = TimeSpan.ParseExact(OverallTime, @"mm\:ss\.ff", CultureInfo.InvariantCulture);
+			CalculatedOverallTime = TimeSpan.ParseExact(OverallTime, @"mm\:ss\.fff", CultureInfo.InvariantCulture); // TODO: this parsing code should not be here (sparation of concerns)
         }
     }
 }
