@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 
 namespace DRLPTest
 {
@@ -46,37 +47,46 @@ namespace DRLPTest
                 for (int i = 0; i < splitCount; i++)
                     splitLine[i] = splitLine[i].Trim();
 
-                if (splitCount == 6)
+                if (splitCount == 5)
+                {
+                    stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), splitLine[1], splitLine[2], splitLine[3], splitLine[4]));
+                }
+                else if (splitCount == 6)
                 {
                     stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), splitLine[2], splitLine[3], splitLine[4], splitLine[5], splitLine[1]));
                 }
-                else if (splitCount == 5)
+                else if (splitCount == 7)
                 {
-                    stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), splitLine[2], splitLine[3], splitLine[4], splitLine[5]));
+                    stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), splitLine[3], splitLine[4], splitLine[5], splitLine[6], splitLine[2]));
                 }
                 else
                 {
-                    textBox_resultsInput.Text = "Parse failure";
+                    label_statusMessage.Content = "Parse failure";
+                    label_statusMessage.Foreground = Brushes.Red;
                     return;
                 }
             }
 
             rallyData.AddStage(stageData);
 
-			textBox_resultsInput.Text = String.Format("SS{0} Has been parsed.", rallyData.StageCount);
+            textBox_resultsInput.Clear();
+			label_statusMessage.Content = String.Format("SS{0} Has been parsed.", rallyData.StageCount);
+            label_statusMessage.Foreground = Brushes.Green;
         }
 
 		private void button_crunchNumbers_Click(object sender, RoutedEventArgs e)
 		{
 			rallyData.CalculateTimes();
-			textBox_resultsInput.Text = "Numbers Crunched.";
-			
-		}
+            label_statusMessage.Content = "Numbers Crunched";
+            label_statusMessage.Foreground = Brushes.Green;
+        }
 
 		private void button_clearAllData_Click(object sender, RoutedEventArgs e)
 		{
 			rallyData = new Rally();
-			textBox_resultsInput.Text = "Data Cleared.";
+            label_statusMessage.Content = "Data Cleared";
+            label_statusMessage.Foreground = Brushes.Green;
+            textBox_resultsInput.Clear();
 		}
 
 		private void button_printOverallTimes_Click(object sender, RoutedEventArgs e)
@@ -123,7 +133,7 @@ namespace DRLPTest
 					}
 					else
 					{
-						outputSB.AppendLine("," + driverName + ",DNF");
+						outputSB.AppendLine(",," + driverName + ",,DNF");
 					}
 				}
 
@@ -131,7 +141,9 @@ namespace DRLPTest
 				stageCount++;
 			}
 
-			textBox_resultsInput.Text = outputSB.ToString();
+            label_statusMessage.Content = "Displaying Overall Times";
+            label_statusMessage.Foreground = Brushes.Green;
+            textBox_resultsInput.Text = outputSB.ToString();
 		}
 
 		private void button_printStageTimes_Click(object sender, RoutedEventArgs e)
@@ -178,15 +190,16 @@ namespace DRLPTest
 					}
 					else
 					{
-						outputSB.AppendLine(",," + driverName + ",DNF");
+						outputSB.AppendLine("," + driverName + ",,DNF");
 					}
 				}
 
 				outputSB.AppendLine("");
 				stageCount++;
 			}
-
-			textBox_resultsInput.Text = outputSB.ToString();
+            label_statusMessage.Content = "Displaying Stage Times";
+            label_statusMessage.Foreground = Brushes.Green;
+            textBox_resultsInput.Text = outputSB.ToString();
 		}
     }
 }
