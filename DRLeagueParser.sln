@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRTimeCruncher", "DRTimeCruncher\DRTimeCruncher.csproj", "{6B1E9BB1-F232-4FE5-9480-19784E50DFB2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRLPTest", "DRLPTest\DRLPTest.csproj", "{8C44318D-530C-4D91-A36C-2E986EAA0214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRTimeCruncher", "DRTimeCruncher\DRTimeCruncher.csproj", "{7FF3898C-158C-4723-844A-B983F0270952}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6B1E9BB1-F232-4FE5-9480-19784E50DFB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B1E9BB1-F232-4FE5-9480-19784E50DFB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B1E9BB1-F232-4FE5-9480-19784E50DFB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B1E9BB1-F232-4FE5-9480-19784E50DFB2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8C44318D-530C-4D91-A36C-2E986EAA0214}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8C44318D-530C-4D91-A36C-2E986EAA0214}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C44318D-530C-4D91-A36C-2E986EAA0214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C44318D-530C-4D91-A36C-2E986EAA0214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FF3898C-158C-4723-844A-B983F0270952}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF3898C-158C-4723-844A-B983F0270952}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF3898C-158C-4723-844A-B983F0270952}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF3898C-158C-4723-844A-B983F0270952}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

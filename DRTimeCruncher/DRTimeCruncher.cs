@@ -70,12 +70,14 @@ namespace DRTimeCruncher
 
 		private void CalculateDeltas(Stage currentStage, bool isFirstStage)
 		{
-			// order by overall time and calculate differences
-			TimeSpan fastestOverallTime;
-			TimeSpan previousOverallTime;
-			TimeSpan fastestStageTime;
-			TimeSpan previousStageTime;
-			foreach (DriverTime driverTime in currentStage.DriverTimes.Values.Where(x => x != null).OrderBy(x => x.CalculatedOverallTime))
+			// order by overall time and calculate overall time deltas
+			TimeSpan fastestOverallTime = new TimeSpan();
+			TimeSpan previousOverallTime = new TimeSpan();
+            TimeSpan fastestStageTime = new TimeSpan();
+            TimeSpan previousStageTime = new TimeSpan();
+            bool firstDriverProcessed = false;
+
+            foreach (DriverTime driverTime in currentStage.DriverTimes.Values.Where(x => x != null).OrderBy(x => x.CalculatedOverallTime))
 			{
 				if (driverTime == null)
 					continue;
@@ -84,6 +86,7 @@ namespace DRTimeCruncher
 				{
 					fastestOverallTime = driverTime.CalculatedOverallTime;
 					previousOverallTime = driverTime.CalculatedOverallTime;
+                    firstDriverProcessed = true;
 
 					if (isFirstStage == true)
 					{
@@ -93,6 +96,11 @@ namespace DRTimeCruncher
 
 					continue;
 				}
+
+                // error - if the first driver has not been processed at this point,
+                // we can't calculate deltas for the other drivers.
+                if (firstDriverProcessed == false)
+                    return;
 
 				driverTime.CalculatedOverallDiffFirst = driverTime.CalculatedOverallTime - fastestOverallTime;
 				driverTime.CalculatedOverallDiffPrevious = driverTime.CalculatedOverallTime - previousOverallTime;
@@ -108,8 +116,11 @@ namespace DRTimeCruncher
 				previousOverallTime = driverTime.CalculatedOverallTime;
 			}
 
-			// order by stage time and calculate differences
-			if (isFirstStage == false)
+            // reset error flag for reuse
+            firstDriverProcessed = false;
+
+            // order by stage time and calculate stage time deltas
+            if (isFirstStage == false)  // skip for the first stage, there is no stage delta to calculate
 			{
 				int stagePosition = 1;
 				foreach (DriverTime driverTime in currentStage.DriverTimes.Values.Where(x => x != null).OrderBy(x => x.CalculatedStageTime))
@@ -125,10 +136,16 @@ namespace DRTimeCruncher
 						previousStageTime = driverTime.CalculatedStageTime;
 						driverTime.CaclulatedStagePosition = stagePosition;
 						stagePosition++;
-						continue;
+                        firstDriverProcessed = true;
+                        continue;
 					}
 
-					driverTime.CalculatedStageDiffFirst = driverTime.CalculatedStageTime - fastestStageTime;
+                    // error - if the first driver has not been processed at this point,
+                    // we can't calculate deltas for the other drivers.
+                    if (firstDriverProcessed == false)
+                        return;
+
+                    driverTime.CalculatedStageDiffFirst = driverTime.CalculatedStageTime - fastestStageTime;
 					driverTime.CalculatedStageDiffPrevious = driverTime.CalculatedStageTime - previousStageTime;
 					driverTime.CaclulatedStagePosition = stagePosition;
 					previousStageTime = driverTime.CalculatedStageTime;
