@@ -228,6 +228,63 @@ namespace DRLPTest
             textBox_resultsInput.Text = outputSB.ToString();
         }
 
+        private void printChartOutput()
+        {
+            var outputSB = new StringBuilder();
+            var positionDict = new Dictionary<string, List<int>>();
+            List<KeyValuePair<string, DriverTime>> sortedStageData = null;
+
+            foreach (Stage stage in rallyData)
+            {
+                sortedStageData = stage.DriverTimes.ToList();
+                sortedStageData.Sort((x, y) =>
+                {
+                    if (x.Value != null && y.Value == null)
+                        return -1;
+                    else if (x.Value == null && y.Value != null)
+                        return 1;
+                    else if (x.Value == null && y.Value == null)
+                        return 0;
+                    else
+                        return x.Value.CalculatedOverallTime.CompareTo(y.Value.CalculatedOverallTime);
+                });
+
+                foreach (KeyValuePair<string, DriverTime> driverTimeKvp in sortedStageData)
+                {
+                    if (driverTimeKvp.Value == null)
+                        continue;
+
+                    var driverKey = driverTimeKvp.Key;
+                    var position = driverTimeKvp.Value.OverallPosition;
+
+                    if (!positionDict.ContainsKey(driverKey))
+                        positionDict.Add(driverKey, new List<int>());
+
+                    positionDict[driverKey].Add(position);
+                }
+            }
+
+            label_statusMessage.Content = "Displaying Chart Output";
+            label_statusMessage.Foreground = Brushes.Green;
+
+
+            // sortedStageData should contain the last stage, sorted by overall time
+            if (sortedStageData == null)
+                return;
+
+            foreach (KeyValuePair<string, DriverTime> driverTimeKvp in sortedStageData)
+            {
+                var driverKey = driverTimeKvp.Key;
+                var positionList = positionDict[driverKey];
+
+                string line = driverKey + "," + String.Join(",", positionList);
+
+                outputSB.AppendLine(line);
+            }
+
+            textBox_resultsInput.Text = outputSB.ToString();
+        }
+
         private void button_print_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedPrintType == PrintType.Stages)
@@ -235,7 +292,7 @@ namespace DRLPTest
             else if (SelectedPrintType == PrintType.Overall)
                 printOverallTimes();
             else if (SelectedPrintType == PrintType.Chart)
-                textBox_resultsInput.Text = "TODO: chart output";
+                printChartOutput();
         }
 
         private void button_copy_Click(object sender, RoutedEventArgs e)
