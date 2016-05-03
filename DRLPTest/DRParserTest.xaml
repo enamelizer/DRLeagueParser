@@ -7,16 +7,20 @@
         mc:Ignorable="d"
         Title="DRParserTest" Height="600" Width="650">
     <Grid>
-        <TextBox x:Name="textBox_resultsInput" HorizontalAlignment="Stretch" Height="Auto" Margin="10,59,10,10" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" AcceptsTab="True" AcceptsReturn="True"/>
-        <Button x:Name="button_parseStage" Content="Parse Stage Data" HorizontalAlignment="Left" Margin="26,10,0,0" VerticalAlignment="Top" Width="100" Click="button_parseStage_Click"/>
-        <Button x:Name="button_clearAllData" Content="Clear All Data" HorizontalAlignment="Left" Margin="544,10,0,0" VerticalAlignment="Top" Width="88" Click="button_clearAllData_Click"/>
-        <Button x:Name="button_crunchNumbers" Content="Crunch Numbers" HorizontalAlignment="Left" Margin="166,10,0,0" VerticalAlignment="Top" Width="106" Click="button_crunchNumbers_Click"/>
-        <Button x:Name="button_printOverallTimes" Content="Print Overall Times" HorizontalAlignment="Left" Margin="405,10,0,0" VerticalAlignment="Top" Width="Auto" Click="button_printOverallTimes_Click"/>
-        <Button x:Name="button_printStageTimes" Content="Print Stage Times" HorizontalAlignment="Left" Margin="302,10,0,0" VerticalAlignment="Top" Width="Auto" Click="button_printStageTimes_Click"/>
-        <Label Content="1" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top"/>
-        <Label Content="2" HorizontalAlignment="Left" Margin="150,7,0,0" VerticalAlignment="Top"/>
-        <Label Content="3" HorizontalAlignment="Left" Margin="286,8,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_resultsInput" HorizontalAlignment="Stretch" Height="Auto" Margin="10,59,10,10" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" AcceptsTab="True" AcceptsReturn="True"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        <Button x:Name="button_parseStage" Content="Parse Stage Data" HorizontalAlignment="Left" Margin="26,12,0,0" VerticalAlignment="Top" Width="100" Click="button_parseStage_Click"/>
+        <Button x:Name="button_clearAllData" Content="Clear All Data" HorizontalAlignment="Left" Margin="544,12,0,0" VerticalAlignment="Top" Width="88" Click="button_clearAllData_Click"/>
+        <Button x:Name="button_crunchNumbers" Content="Crunch Numbers" HorizontalAlignment="Left" Margin="165,12,0,0" VerticalAlignment="Top" Width="106" Click="button_crunchNumbers_Click"/>
+        <Label Content="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="2" HorizontalAlignment="Left" Margin="149,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="3" HorizontalAlignment="Left" Margin="281,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label_statusMessage" Content="" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.52,-0.717"/>
+        <ComboBox x:Name="comboBox_printType" HorizontalAlignment="Left" Margin="300,12,0,0" VerticalAlignment="Top" Width="80"
+            ItemsSource="{Binding PrintTypeDict}" 
+            DisplayMemberPath="Value" 
+            SelectedValuePath="Key"
+            SelectedValue="{Binding Path=SelectedPrintType, Mode=TwoWay}"/>
 
     </Grid>
 </Window>
