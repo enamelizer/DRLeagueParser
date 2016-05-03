@@ -21,6 +21,8 @@
             DisplayMemberPath="Value" 
             SelectedValuePath="Key"
             SelectedValue="{Binding Path=SelectedPrintType, Mode=TwoWay}"/>
+        <Button x:Name="button_print" Content="Print" HorizontalAlignment="Left" Margin="385,12,0,0" VerticalAlignment="Top" Width="60" Click="button_print_Click"/>
+        <Button x:Name="button_copy" Content="Copy" HorizontalAlignment="Left" Margin="450,12,0,0" VerticalAlignment="Top" Width="60" Click="button_copy_Click"/>
 
     </Grid>
 </Window>
