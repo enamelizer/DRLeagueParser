@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -300,6 +301,28 @@ namespace DRLPTest
             Clipboard.SetText(textBox_resultsInput.Text);
             label_statusMessage.Content = "Data Copied to Clipboard";
             label_statusMessage.Foreground = Brushes.Green;
+        }
+
+        private async void button_parseRacenetApi_Click(object sender, RoutedEventArgs e)
+        {
+            var getDataTask = Task<Rally>.Factory.StartNew(() => RacenetApiParser.GetRallyData("95576"));
+
+            label_statusMessage.Content = "Fetching data from Racenet";
+
+            await getDataTask;
+
+            rallyData = getDataTask.Result;
+
+            if (rallyData == null)
+            {
+                label_statusMessage.Content = "Failed to get data from Racenet";
+                label_statusMessage.Foreground = Brushes.Red;
+            }
+            else
+            {
+                label_statusMessage.Content = rallyData.StageCount + " stages retrieved from Racenet";
+                label_statusMessage.Foreground = Brushes.Green;
+            }
         }
     }
 }
