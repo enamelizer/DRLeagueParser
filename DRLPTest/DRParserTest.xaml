@@ -7,22 +7,39 @@
         mc:Ignorable="d"
         Title="DRParserTest" Height="600" Width="650">
     <Grid>
-        <TextBox x:Name="textBox_resultsInput" HorizontalAlignment="Stretch" Height="Auto" Margin="10,59,10,10" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" AcceptsTab="True" AcceptsReturn="True"
+        <GroupBox x:Name="groupBox" Header="Text Parsing" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="52" Width="277"/>
+        <GroupBox x:Name="groupBox1" Header="API Parsing" HorizontalAlignment="Left" Margin="292,0,0,0" VerticalAlignment="Top" Height="52" Width="247"/>
+        <GroupBox x:Name="groupBox2" Header="Output CSV" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Height="53" Width="232"/>
+
+        <TextBox x:Name="textBox_resultsInput" HorizontalAlignment="Stretch" Height="Auto" Margin="10,115,10,10" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" AcceptsTab="True" AcceptsReturn="True"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-        <Button x:Name="button_parseStage" Content="Parse Stage Data" HorizontalAlignment="Left" Margin="26,12,0,0" VerticalAlignment="Top" Width="100" Click="button_parseStage_Click"/>
-        <Button x:Name="button_clearAllData" Content="Clear All Data" HorizontalAlignment="Left" Margin="544,12,0,0" VerticalAlignment="Top" Width="88" Click="button_clearAllData_Click"/>
-        <Button x:Name="button_crunchNumbers" Content="Crunch Numbers" HorizontalAlignment="Left" Margin="165,12,0,0" VerticalAlignment="Top" Width="106" Click="button_crunchNumbers_Click"/>
-        <Label Content="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="2" HorizontalAlignment="Left" Margin="149,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="3" HorizontalAlignment="Left" Margin="281,10,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label_statusMessage" Content="" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.52,-0.717"/>
-        <ComboBox x:Name="comboBox_printType" HorizontalAlignment="Left" Margin="300,12,0,0" VerticalAlignment="Top" Width="80"
+        <Button x:Name="button_parseStage" Content="Parse Stage Data" HorizontalAlignment="Left" Margin="33,22,0,0" VerticalAlignment="Top" Width="100" Click="button_parseStage_Click"/>
+        <Button x:Name="button_clearAllData" Content="Clear All Data" HorizontalAlignment="Left" Margin="544,22,0,0" VerticalAlignment="Top" Width="88" Click="button_clearAllData_Click"/>
+        <Button x:Name="button_crunchNumbers" Content="Crunch Numbers" HorizontalAlignment="Left" Margin="172,22,0,0" VerticalAlignment="Top" Width="106" Click="button_crunchNumbers_Click"/>
+        <Label Content="1" HorizontalAlignment="Left" Margin="17,20,0,0" VerticalAlignment="Top"/>
+        <Label Content="2" HorizontalAlignment="Left" Margin="156,20,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_statusMessage" Content="status text" HorizontalAlignment="Left" Margin="266,75,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.52,-0.717"/>
+        <ComboBox x:Name="comboBox_printType" HorizontalAlignment="Left" Margin="22,77,0,0" VerticalAlignment="Top" Width="80"
             ItemsSource="{Binding PrintTypeDict}" 
             DisplayMemberPath="Value" 
             SelectedValuePath="Key"
-            SelectedValue="{Binding Path=SelectedPrintType, Mode=TwoWay}"/>
-        <Button x:Name="button_print" Content="Print" HorizontalAlignment="Left" Margin="385,12,0,0" VerticalAlignment="Top" Width="60" Click="button_print_Click"/>
-        <Button x:Name="button_copy" Content="Copy" HorizontalAlignment="Left" Margin="450,12,0,0" VerticalAlignment="Top" Width="60" Click="button_copy_Click"/>
+            SelectedValue="{Binding SelectedPrintType, Mode=TwoWay}"/>
+        <Button x:Name="button_print" Content="Print" HorizontalAlignment="Left" Margin="107,77,0,0" VerticalAlignment="Top" Width="60" Click="button_print_Click"/>
+        <Button x:Name="button_copy" Content="Copy" HorizontalAlignment="Left" Margin="172,77,0,0" VerticalAlignment="Top" Width="60" Click="button_copy_Click"/>
+        <Button x:Name="button_parseRacenetApi" Content="Parse via Racenet API" HorizontalAlignment="Left" Margin="302,22,0,0" VerticalAlignment="Top" Width="148" Click="button_parseRacenetApi_Click"/>
+        <TextBox x:Name="textBox_eventId" HorizontalAlignment="Left" Margin="455,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74" Height="20"/>
+        <TextBlock IsHitTestVisible="False" Text="Event ID" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="470,26,0,523" Height="20" Foreground="DarkGray" >
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=textBox_eventId}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
 
     </Grid>
 </Window>
