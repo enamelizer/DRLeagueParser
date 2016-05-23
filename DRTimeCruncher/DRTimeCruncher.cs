@@ -187,6 +187,11 @@ namespace DRTimeCruncher
 		{
 			DriverTimes = new Dictionary<string, DriverTime>();
 		}
+
+        public int Count
+        {
+            get { return DriverTimes.Count; }
+        }
     }
 
     /// <summary>
@@ -228,7 +233,15 @@ namespace DRTimeCruncher
             OverallTime = overallTime;
             OverallDiffFirst = overallDiffFirst;
 
-			CalculatedOverallTime = TimeSpan.ParseExact(OverallTime, @"mm\:ss\.fff", CultureInfo.InvariantCulture); // TODO: this parsing code should not be here (sparation of concerns)
+            // TODO: this parsing code should not be here (sparation of concerns)
+            TimeSpan parsedOverallTime;
+
+            if (TimeSpan.TryParseExact(OverallTime, @"mm\:ss\.fff", CultureInfo.InvariantCulture, out parsedOverallTime))
+                CalculatedOverallTime = parsedOverallTime;
+            else if (TimeSpan.TryParseExact(OverallTime, @"hh\:mm\:ss\.fff", CultureInfo.InvariantCulture, out parsedOverallTime))
+                CalculatedOverallTime = parsedOverallTime;
+            else
+                throw new ArgumentException("Could not parse overall time");
         }
     }
 }

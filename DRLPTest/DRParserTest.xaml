@@ -10,7 +10,7 @@
         <GroupBox x:Name="groupBox" Header="Text Parsing" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="52" Width="277"/>
         <GroupBox x:Name="groupBox1" Header="API Parsing" HorizontalAlignment="Left" Margin="292,0,0,0" VerticalAlignment="Top" Height="52" Width="247"/>
         <GroupBox x:Name="groupBox2" Header="Output CSV" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Height="53" Width="232"/>
-        
+
         <TextBox x:Name="textBox_resultsInput" HorizontalAlignment="Stretch" Height="Auto" Margin="10,115,10,10" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" AcceptsTab="True" AcceptsReturn="True"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         <Button x:Name="button_parseStage" Content="Parse Stage Data" HorizontalAlignment="Left" Margin="33,22,0,0" VerticalAlignment="Top" Width="100" Click="button_parseStage_Click"/>
@@ -27,7 +27,19 @@
         <Button x:Name="button_print" Content="Print" HorizontalAlignment="Left" Margin="107,77,0,0" VerticalAlignment="Top" Width="60" Click="button_print_Click"/>
         <Button x:Name="button_copy" Content="Copy" HorizontalAlignment="Left" Margin="172,77,0,0" VerticalAlignment="Top" Width="60" Click="button_copy_Click"/>
         <Button x:Name="button_parseRacenetApi" Content="Parse via Racenet API" HorizontalAlignment="Left" Margin="302,22,0,0" VerticalAlignment="Top" Width="148" Click="button_parseRacenetApi_Click"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="455,20,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="74"/>
+        <TextBox x:Name="textBox_eventId" HorizontalAlignment="Left" Margin="455,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74" Height="20"/>
+        <TextBlock IsHitTestVisible="False" Text="Event ID" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="470,26,0,523" Height="20" Foreground="DarkGray" >
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=textBox_eventId}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
 
     </Grid>
 </Window>
