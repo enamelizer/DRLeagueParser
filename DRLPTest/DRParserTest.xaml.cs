@@ -149,7 +149,7 @@ namespace DRLPTest
 
                     if (driverTime != null)
                     {
-                        var formatString = @"mm\:ss\.ff";
+                        var formatString = @"hh\:mm\:ss\.fff";
                         var line = driverTime.OverallPosition + "," +
                                    driverTime.CalculatedPositionChange + "," +
                                    driverTime.Driver + "," +
@@ -207,7 +207,7 @@ namespace DRLPTest
 
                     if (driverTime != null)
                     {
-                        var formatString = @"mm\:ss\.ff";
+                        var formatString = @"mm\:ss\.fff";
                         var line = driverTime.CaclulatedStagePosition + "," +
                                    driverTime.Driver + "," +
                                    driverTime.Vehicle + "," +
