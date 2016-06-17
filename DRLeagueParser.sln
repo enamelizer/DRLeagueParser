@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRLPTest", "DRLPTest\DRLPTest.csproj", "{8C44318D-530C-4D91-A36C-2E986EAA0214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRTimeCruncher", "DRTimeCruncher\DRTimeCruncher.csproj", "{7FF3898C-158C-4723-844A-B983F0270952}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DRNumberCrunchers", "DRNumberCrunchers\DRNumberCrunchers.csproj", "{7FF3898C-158C-4723-844A-B983F0270952}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
