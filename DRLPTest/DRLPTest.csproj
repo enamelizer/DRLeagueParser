@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EloHandler.cs" />
     <Compile Include="RacenetApiParser.cs" />
     <Page Include="DRParserTest.xaml">
       <Generator>MSBuild:Compile</Generator>
