@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using DRNumberCrunchers;
 
 namespace DRLPTest
 {
@@ -22,6 +23,20 @@ namespace DRLPTest
         {
             jsonDataStore = Path.Combine(Directory.GetCurrentDirectory(), "EloPlayerData.json");
             LoadEloData();
+
+            if (this.HasData == false)
+            {
+                CurrentEloPlayerData = new EloPlayerCollection();
+                CurrentEloPlayerData.EloPlayers = new Dictionary<string, EloPlayerData>();
+            }
+        }
+
+        public bool HasData
+        {
+            get
+            {
+                return CurrentEloPlayerData != null && CurrentEloPlayerData.EloPlayers != null && CurrentEloPlayerData.EloPlayers.Count > 0;
+            }
         }
 
         private void LoadEloData()
@@ -37,6 +52,9 @@ namespace DRLPTest
 
         public void SaveEloPlayerData()
         {
+            if (this.HasData == false)
+                return;
+
             var serializer = new DataContractJsonSerializer(typeof(EloPlayerCollection));
 
             using (var stream = new StreamWriter(jsonDataStore, false))
@@ -45,14 +63,52 @@ namespace DRLPTest
 
         public void NewMatch(Dictionary<int, string> matchData)
         {
-            // for each player in the dictionary, see if there is an entry already
+            var eloMatch = new ELOMatch();
 
-            // create the elo player data, either using persisted data if they already exist,
-            // or new data if not
+            // for each player in the dictionary, see if there is an entry already
+            // if so, get the current ranking, if not, use 1500
+            foreach(var kvp in matchData)
+            {
+                var place = kvp.Key;
+                var playerName = kvp.Value;
+
+                if (CurrentEloPlayerData.EloPlayers.Keys.Contains(playerName))
+                    eloMatch.addPlayer(playerName, place, CurrentEloPlayerData.EloPlayers[playerName].CurrentRating);
+                else
+                    eloMatch.addPlayer(playerName, place, 1500);
+            }
 
             // run the matches
+            eloMatch.calculateELOs();
+            var numMatchups = matchData.Count - 1;
 
             // update the data cache
+            foreach (var kvp in matchData)
+            {
+                var playerName = kvp.Value;
+                var newRanking = eloMatch.getELO(playerName);
+                var eloChange = eloMatch.getELOChange(playerName);
+
+                if (CurrentEloPlayerData.EloPlayers.Keys.Contains(playerName))
+                {
+                    var eloPlayer = CurrentEloPlayerData.EloPlayers[playerName];
+                    eloPlayer.CurrentRating = newRanking;
+                    eloPlayer.LastEloChange = eloChange;
+                    eloPlayer.NumMatches++;
+                    eloPlayer.NumMatchups += numMatchups;
+                }
+                else
+                {
+                    var eloPlayer = new EloPlayerData();
+                    eloPlayer.PlayerName = playerName;
+                    eloPlayer.CurrentRating = newRanking;
+                    eloPlayer.LastEloChange = eloChange;
+                    eloPlayer.NumMatches = 1;
+                    eloPlayer.NumMatchups = numMatchups;
+
+                    CurrentEloPlayerData.EloPlayers.Add(playerName, eloPlayer);
+                }
+            }
 
             // save the data?
         }
@@ -62,7 +118,7 @@ namespace DRLPTest
     class EloPlayerCollection
     {
         [DataMember]
-        public List<EloPlayerData> EloPlayers { get; set; }
+        public Dictionary<string, EloPlayerData> EloPlayers { get; set; }
     }
 
     [DataContract]
@@ -76,5 +132,11 @@ namespace DRLPTest
 
         [DataMember]
         public int NumMatches { get; set; }
+
+        [DataMember]
+        public int NumMatchups { get; set; }
+
+        [DataMember]
+        public int LastEloChange { get; set; }
     }
 }

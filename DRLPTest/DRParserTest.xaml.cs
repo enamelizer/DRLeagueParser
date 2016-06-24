@@ -15,6 +15,7 @@ namespace DRLPTest
     public partial class DRParserTest : Window
     {
         private Rally rallyData;
+        private EloHandler eloHandler;
 
         public DRParserTest()
         {
@@ -24,6 +25,19 @@ namespace DRLPTest
             DataContext = this;
 
             label_statusMessage.Content = "";
+
+            eloHandler = new EloHandler();
+
+            if (eloHandler.HasData)
+            {
+                label_statusMessage.Content = "Elo data loaded";
+                label_statusMessage.Foreground = Brushes.Green;
+            }
+            else
+            {
+                label_statusMessage.Content = "No Elo data found";
+                label_statusMessage.Foreground = Brushes.Red;
+            }
         }
 
         // enum for the type of output to print
@@ -361,6 +375,92 @@ namespace DRLPTest
                 label_statusMessage.Content = rallyData.StageCount + " stages retrieved from Racenet, numbers crunched sucessfully";
                 label_statusMessage.Foreground = Brushes.Green;
             }
+        }
+
+        private void button_parseEloMatch_Click(object sender, RoutedEventArgs e)
+        {
+            // get text from textbox
+            var lineCount = textBox_resultsInput.LineCount;
+
+            if (lineCount < 1)
+                return;
+
+            var lines = textBox_resultsInput.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+            // parse into stage data
+            var eloData = new Dictionary<int, string>();
+            char[] separator = { '\t' };
+
+            foreach (var line in lines)
+            {
+                if (String.IsNullOrWhiteSpace(line))
+                    continue;
+
+                var splitLine = line.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                var splitCount = splitLine.Count();
+
+                for (int i = 0; i < splitCount; i++)
+                    splitLine[i] = splitLine[i].Trim();
+
+                if (splitCount == 2)
+                {
+                    eloData.Add(Convert.ToInt32(splitLine[0]), splitLine[1]);
+                }
+                else
+                {
+                    label_statusMessage.Content = "Parse failure";
+                    label_statusMessage.Foreground = Brushes.Red;
+                    return;
+                }
+            }
+
+            // run Elo match
+            eloHandler.NewMatch(eloData);
+
+            textBox_resultsInput.Clear();
+            label_statusMessage.Content = String.Format("Elo match parsed.");
+            label_statusMessage.Foreground = Brushes.Green;
+        }
+
+        private void button_saveEloData_Click(object sender, RoutedEventArgs e)
+        {
+            if (eloHandler.HasData == false)
+            {
+                label_statusMessage.Content = "No Elo data to save";
+                label_statusMessage.Foreground = Brushes.Red;
+                return;
+            }
+
+            eloHandler.SaveEloPlayerData();
+        }
+
+        private void button_printEloRankings_Click(object sender, RoutedEventArgs e)
+        {
+            var outputSB = new StringBuilder();
+            
+            outputSB.AppendLine("Player Name, Elo Ranking, Ranking Change, Matches, Matchups");
+
+            List<EloPlayerData> sortedEloPlayerData = eloHandler.CurrentEloPlayerData.EloPlayers.Values.ToList();
+            sortedEloPlayerData.Sort((x, y) =>
+            {
+                return y.CurrentRating.CompareTo(x.CurrentRating);
+            });
+
+
+            foreach (var eloPlayerData in sortedEloPlayerData)
+            {
+                var line = eloPlayerData.PlayerName + "," +
+                           eloPlayerData.CurrentRating + "," +
+                           eloPlayerData.LastEloChange + "," +
+                           eloPlayerData.NumMatches + "," +
+                           eloPlayerData.NumMatchups;
+
+                outputSB.AppendLine(line);
+            }
+
+            label_statusMessage.Content = "Displaying Elo Rankings";
+            label_statusMessage.Foreground = Brushes.Green;
+            textBox_resultsInput.Text = outputSB.ToString();
         }
     }
 }

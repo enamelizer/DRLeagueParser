@@ -18,7 +18,7 @@
         <Button x:Name="button_crunchNumbers" Content="Crunch Numbers" HorizontalAlignment="Left" Margin="172,22,0,0" VerticalAlignment="Top" Width="106" Click="button_crunchNumbers_Click"/>
         <Label Content="1" HorizontalAlignment="Left" Margin="17,20,0,0" VerticalAlignment="Top"/>
         <Label Content="2" HorizontalAlignment="Left" Margin="156,20,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label_statusMessage" Content="status text" HorizontalAlignment="Left" Margin="266,75,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.52,-0.717"/>
+        <Label x:Name="label_statusMessage" Content="status text" HorizontalAlignment="Left" Margin="406,75,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.52,-0.717" Width="226"/>
         <ComboBox x:Name="comboBox_printType" HorizontalAlignment="Left" Margin="22,77,0,0" VerticalAlignment="Top" Width="80"
             ItemsSource="{Binding PrintTypeDict}" 
             DisplayMemberPath="Value" 
@@ -40,6 +40,11 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
+
+        <GroupBox x:Name="groupBox3" Header="Elo Rankings" HorizontalAlignment="Left" Height="53" Margin="247,57,0,0" VerticalAlignment="Top" Width="154"/>
+        <Button x:Name="button_parseEloMatch" Content="Parse" HorizontalAlignment="Left" Margin="258,77,0,0" VerticalAlignment="Top" Width="40" Click="button_parseEloMatch_Click"/>
+        <Button x:Name="button_saveEloData" Content="Save" HorizontalAlignment="Left" Margin="303,77,0,0" VerticalAlignment="Top" Width="40" Click="button_saveEloData_Click"/>
+        <Button x:Name="button_printEloRankings" Content="Print" HorizontalAlignment="Left" Margin="348,77,0,0" VerticalAlignment="Top" Width="40" Click="button_printEloRankings_Click"/>
 
     </Grid>
 </Window>

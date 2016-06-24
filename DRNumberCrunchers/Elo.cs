@@ -39,7 +39,7 @@ using System.Collections.Generic;
 
 namespace DRNumberCrunchers
 {
-    class ELOPlayer
+    public class ELOPlayer
     {
         public string name;
 
@@ -49,7 +49,7 @@ namespace DRNumberCrunchers
         public int eloChange = 0;
     }
 
-    class ELOMatch
+    public class ELOMatch
     {
         private List<ELOPlayer> players = new List<ELOPlayer>();
 
