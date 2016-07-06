@@ -91,26 +91,43 @@ namespace DRLPTest
 
                 if (CurrentEloPlayerData.EloPlayers.Keys.Contains(playerName))
                 {
-                    var eloPlayer = CurrentEloPlayerData.EloPlayers[playerName];
-                    eloPlayer.CurrentRating = newRanking;
-                    eloPlayer.LastEloChange = eloChange;
-                    eloPlayer.NumMatches++;
-                    eloPlayer.NumMatchups += numMatchups;
+                    var oldPlayerData = CurrentEloPlayerData.EloPlayers[playerName];
+                    var newPlayerData = new EloPlayerData();
+
+                    newPlayerData.PlayerName = oldPlayerData.PlayerName;
+                    newPlayerData.CurrentRating = newRanking;
+                    newPlayerData.LastEloChange = eloChange;
+                    newPlayerData.NumMatches = oldPlayerData.NumMatches + 1;
+                    newPlayerData.NumMatchups = oldPlayerData.NumMatchups + numMatchups;
+                    newPlayerData.NumConsecutiveMissed = 0;
+                    newPlayerData.ChangeFromLastMatch = newRanking - oldPlayerData.CurrentRating;
+
+                    CurrentEloPlayerData.EloPlayers[playerName] = newPlayerData;
                 }
                 else
                 {
-                    var eloPlayer = new EloPlayerData();
-                    eloPlayer.PlayerName = playerName;
-                    eloPlayer.CurrentRating = newRanking;
-                    eloPlayer.LastEloChange = eloChange;
-                    eloPlayer.NumMatches = 1;
-                    eloPlayer.NumMatchups = numMatchups;
+                    var newPlayerData = new EloPlayerData();
+                    newPlayerData.PlayerName = playerName;
+                    newPlayerData.CurrentRating = newRanking;
+                    newPlayerData.LastEloChange = eloChange;
+                    newPlayerData.NumMatches = 1;
+                    newPlayerData.NumMatchups = numMatchups;
+                    newPlayerData.NumConsecutiveMissed = 0;
+                    newPlayerData.ChangeFromLastMatch = newRanking - 1500;
 
-                    CurrentEloPlayerData.EloPlayers.Add(playerName, eloPlayer);
+                    CurrentEloPlayerData.EloPlayers.Add(playerName, newPlayerData);
                 }
             }
 
-            // save the data?
+            // Now increment the rallies missed counter for players not in the match
+            foreach (var kvp in CurrentEloPlayerData.EloPlayers)
+            {
+                if (!matchData.Values.Contains(kvp.Key))
+                {
+                    kvp.Value.NumConsecutiveMissed++;
+                    kvp.Value.ChangeFromLastMatch = 0;
+                }
+            }
         }
     }
 
@@ -135,8 +152,14 @@ namespace DRLPTest
 
         [DataMember]
         public int NumMatchups { get; set; }
+        
+        [DataMember]
+        public int ChangeFromLastMatch { get; set; }
 
         [DataMember]
         public int LastEloChange { get; set; }
+
+        [DataMember]
+        public int NumConsecutiveMissed { get; set; }
     }
 }

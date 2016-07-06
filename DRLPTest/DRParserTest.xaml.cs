@@ -438,7 +438,7 @@ namespace DRLPTest
         {
             var outputSB = new StringBuilder();
             
-            outputSB.AppendLine("Player Name, Elo Ranking, Ranking Change, Matches, Matchups");
+            outputSB.AppendLine("Player Name, Elo Rating, Change, Last Elo Change, Matches, Matchups, Consecutive Matches Missed");
 
             List<EloPlayerData> sortedEloPlayerData = eloHandler.CurrentEloPlayerData.EloPlayers.Values.ToList();
             sortedEloPlayerData.Sort((x, y) =>
@@ -451,9 +451,11 @@ namespace DRLPTest
             {
                 var line = eloPlayerData.PlayerName + "," +
                            eloPlayerData.CurrentRating + "," +
+                           eloPlayerData.ChangeFromLastMatch + "," +
                            eloPlayerData.LastEloChange + "," +
                            eloPlayerData.NumMatches + "," +
-                           eloPlayerData.NumMatchups;
+                           eloPlayerData.NumMatchups + "," +
+                           eloPlayerData.NumConsecutiveMissed;
 
                 outputSB.AppendLine(line);
             }
