@@ -432,13 +432,15 @@ namespace DRLPTest
             }
 
             eloHandler.SaveEloPlayerData();
+            label_statusMessage.Content = "Elo data saved";
+            label_statusMessage.Foreground = Brushes.Green;
         }
 
         private void button_printEloRankings_Click(object sender, RoutedEventArgs e)
         {
             var outputSB = new StringBuilder();
             
-            outputSB.AppendLine("Player Name, Elo Rating, Change, Last Elo Change, Matches, Matchups, Consecutive Matches Missed");
+            outputSB.AppendLine("Player Name, Elo Rating, Change, Last Elo Change, Matches, Consecutive Matches Missed");
 
             List<EloPlayerData> sortedEloPlayerData = eloHandler.CurrentEloPlayerData.EloPlayers.Values.ToList();
             sortedEloPlayerData.Sort((x, y) =>
@@ -454,7 +456,6 @@ namespace DRLPTest
                            eloPlayerData.ChangeFromLastMatch + "," +
                            eloPlayerData.LastEloChange + "," +
                            eloPlayerData.NumMatches + "," +
-                           eloPlayerData.NumMatchups + "," +
                            eloPlayerData.NumConsecutiveMissed;
 
                 outputSB.AppendLine(line);

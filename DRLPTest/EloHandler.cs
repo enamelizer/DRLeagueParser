@@ -80,7 +80,6 @@ namespace DRLPTest
 
             // run the matches
             eloMatch.calculateELOs();
-            var numMatchups = matchData.Count - 1;
 
             // update the data cache
             foreach (var kvp in matchData)
@@ -98,7 +97,6 @@ namespace DRLPTest
                     newPlayerData.CurrentRating = newRanking;
                     newPlayerData.LastEloChange = eloChange;
                     newPlayerData.NumMatches = oldPlayerData.NumMatches + 1;
-                    newPlayerData.NumMatchups = oldPlayerData.NumMatchups + numMatchups;
                     newPlayerData.NumConsecutiveMissed = 0;
                     newPlayerData.ChangeFromLastMatch = newRanking - oldPlayerData.CurrentRating;
 
@@ -111,7 +109,6 @@ namespace DRLPTest
                     newPlayerData.CurrentRating = newRanking;
                     newPlayerData.LastEloChange = eloChange;
                     newPlayerData.NumMatches = 1;
-                    newPlayerData.NumMatchups = numMatchups;
                     newPlayerData.NumConsecutiveMissed = 0;
                     newPlayerData.ChangeFromLastMatch = newRanking - 1500;
 
@@ -149,9 +146,6 @@ namespace DRLPTest
 
         [DataMember]
         public int NumMatches { get; set; }
-
-        [DataMember]
-        public int NumMatchups { get; set; }
         
         [DataMember]
         public int ChangeFromLastMatch { get; set; }

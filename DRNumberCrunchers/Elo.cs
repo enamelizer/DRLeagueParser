@@ -51,6 +51,12 @@ namespace DRNumberCrunchers
 
     public class ELOMatch
     {
+        // these values differ significantly from the initial implementation
+        // in order to more quickly rank new players by increasing the K-factor
+        // while attempting to manage volitility by increasing the spread of ratings with a higher d-factor
+        private float kFactor = 64;     // sensitivity
+        private float dFactor = 800;    // player rating weight (increases spread of ratings)
+
         private List<ELOPlayer> players = new List<ELOPlayer>();
 
         public void addPlayer(string name, int place, int elo)
@@ -87,7 +93,7 @@ namespace DRNumberCrunchers
         public void calculateELOs()
         {
             int n = players.Count;
-            float K = 32 / (float)(n - 1);
+            float K = kFactor / (float)(n - 1);
 
             for (int i = 0; i < n; i++)
             {
@@ -111,7 +117,7 @@ namespace DRNumberCrunchers
                             S = 0.0F;
 
                         //work out EA
-                        float EA = 1 / (1.0f + (float)Math.Pow(10.0f, (opponentELO - curELO) / 400.0f));
+                        float EA = 1 / (1.0f + (float)Math.Pow(10.0f, (opponentELO - curELO) / dFactor));
 
                         //calculate ELO change vs this one opponent, add it to our change bucket
                         //I currently round at this point, this keeps rounding changes symetrical between EA and EB, but changes K more than it should
