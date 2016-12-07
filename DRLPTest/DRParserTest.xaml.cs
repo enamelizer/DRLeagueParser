@@ -14,17 +14,20 @@ namespace DRLPTest
     /// </summary>
     public partial class DRParserTest : Window
     {
-        private Rally rallyData;
+        private Rally rallyData = new Rally();
+        private RacenetApiParser racenetApiParser = new RacenetApiParser();
         private EloHandler eloHandler;
 
         public DRParserTest()
         {
             InitializeComponent();
-
-            rallyData = new Rally();
             DataContext = this;
 
             label_statusMessage.Content = "";
+			
+            var leagueUrl = Properties.Settings.Default["leagueUrl"] as string;
+            if (!string.IsNullOrWhiteSpace(leagueUrl))
+                textBox_leagueUrl.Text = leagueUrl;
 
             eloHandler = new EloHandler();
 
@@ -340,6 +343,14 @@ namespace DRLPTest
 
             eventId = eventId.Trim();
 
+            // handle URL if it exists
+            var leagueUrl = textBox_leagueUrl.Text;
+            if (!string.IsNullOrWhiteSpace(leagueUrl))
+            {
+                Properties.Settings.Default.leagueUrl = leagueUrl;
+                Properties.Settings.Default.Save();
+            }
+
             // clear all data
             rallyData = new Rally();
             label_statusMessage.Content = "Data Cleared";
@@ -354,7 +365,7 @@ namespace DRLPTest
             });
 
             // run task to get data
-            var getDataTask = Task<Rally>.Factory.StartNew(() => RacenetApiParser.GetRallyData(eventId, progress));
+            var getDataTask = Task<Rally>.Factory.StartNew(() => racenetApiParser.GetRallyData(leagueUrl, eventId, progress));
 
             label_statusMessage.Content = "Fetching data from Racenet (be patient, Racenet is slow)...";
             label_statusMessage.Foreground = Brushes.Green;

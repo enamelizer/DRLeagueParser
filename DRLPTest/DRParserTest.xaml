@@ -5,30 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DRLPTest"
         mc:Ignorable="d"
-        Title="DRParserTest" Height="600" Width="650">
+        Title="DRParserTest" Height="887" Width="650">
     <Grid>
-        <GroupBox x:Name="groupBox" Header="Text Parsing" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="52" Width="277"/>
-        <GroupBox x:Name="groupBox1" Header="API Parsing" HorizontalAlignment="Left" Margin="292,0,0,0" VerticalAlignment="Top" Height="52" Width="247"/>
-        <GroupBox x:Name="groupBox2" Header="Output CSV" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Height="53" Width="232"/>
+        <GroupBox x:Name="groupBox" Header="Text Parsing" HorizontalAlignment="Left" Margin="14,79,0,0" VerticalAlignment="Top" Height="52" Width="277"/>
+        <GroupBox x:Name="groupBox1" Header="API Parsing" HorizontalAlignment="Left" Margin="12,3,0,0" VerticalAlignment="Top" Height="75" Width="608"/>
+        <GroupBox x:Name="groupBox2" Header="Output CSV" HorizontalAlignment="Left" Margin="13,130,0,0" VerticalAlignment="Top" Height="53" Width="232"/>
 
-        <TextBox x:Name="textBox_resultsInput" HorizontalAlignment="Stretch" Height="Auto" Margin="10,115,10,10" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" AcceptsTab="True" AcceptsReturn="True"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-        <Button x:Name="button_parseStage" Content="Parse Stage Data" HorizontalAlignment="Left" Margin="33,22,0,0" VerticalAlignment="Top" Width="100" Click="button_parseStage_Click"/>
-        <Button x:Name="button_clearAllData" Content="Clear All Data" HorizontalAlignment="Left" Margin="544,22,0,0" VerticalAlignment="Top" Width="88" Click="button_clearAllData_Click"/>
-        <Button x:Name="button_crunchNumbers" Content="Crunch Numbers" HorizontalAlignment="Left" Margin="172,22,0,0" VerticalAlignment="Top" Width="106" Click="button_crunchNumbers_Click"/>
-        <Label Content="1" HorizontalAlignment="Left" Margin="17,20,0,0" VerticalAlignment="Top"/>
-        <Label Content="2" HorizontalAlignment="Left" Margin="156,20,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label_statusMessage" Content="status text" HorizontalAlignment="Left" Margin="406,75,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.52,-0.717" Width="226"/>
-        <ComboBox x:Name="comboBox_printType" HorizontalAlignment="Left" Margin="22,77,0,0" VerticalAlignment="Top" Width="80"
+        <TextBox x:Name="textBox_resultsInput" HorizontalAlignment="Stretch" Height="Auto" Margin="10,215,10,10" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" AcceptsTab="True" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />
+        <Button x:Name="button_parseStage" Content="Parse Stage Data" HorizontalAlignment="Left" Margin="37,101,0,0" VerticalAlignment="Top" Width="100" Click="button_parseStage_Click"/>
+        <Button x:Name="button_clearAllData" Content="Clear All Data" HorizontalAlignment="Left" Margin="525,85,0,0" VerticalAlignment="Top" Width="88" Click="button_clearAllData_Click"/>
+        <Button x:Name="button_crunchNumbers" Content="Crunch Numbers" HorizontalAlignment="Left" Margin="176,101,0,0" VerticalAlignment="Top" Width="106" Click="button_crunchNumbers_Click"/>
+        <Label Content="1" HorizontalAlignment="Left" Margin="19,99,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.375,-0.577"/>
+        <Label Content="2" HorizontalAlignment="Left" Margin="160,99,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_statusMessage" Content="status text" HorizontalAlignment="Left" Margin="16,184,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.52,-0.717"/>
+        <ComboBox x:Name="comboBox_printType" HorizontalAlignment="Left" Margin="25,150,0,0" VerticalAlignment="Top" Width="80"
             ItemsSource="{Binding PrintTypeDict}" 
             DisplayMemberPath="Value" 
             SelectedValuePath="Key"
             SelectedValue="{Binding SelectedPrintType, Mode=TwoWay}"/>
-        <Button x:Name="button_print" Content="Print" HorizontalAlignment="Left" Margin="107,77,0,0" VerticalAlignment="Top" Width="60" Click="button_print_Click"/>
-        <Button x:Name="button_copy" Content="Copy" HorizontalAlignment="Left" Margin="172,77,0,0" VerticalAlignment="Top" Width="60" Click="button_copy_Click"/>
-        <Button x:Name="button_parseRacenetApi" Content="Parse via Racenet API" HorizontalAlignment="Left" Margin="302,22,0,0" VerticalAlignment="Top" Width="148" Click="button_parseRacenetApi_Click"/>
-        <TextBox x:Name="textBox_eventId" HorizontalAlignment="Left" Margin="455,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74" Height="20"/>
-        <TextBlock IsHitTestVisible="False" Text="Event ID" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="470,26,0,523" Height="20" Foreground="DarkGray" >
+        <Button x:Name="button_print" Content="Print" HorizontalAlignment="Left" Margin="110,150,0,0" VerticalAlignment="Top" Width="60" Click="button_print_Click"/>
+        <Button x:Name="button_copy" Content="Copy" HorizontalAlignment="Left" Margin="175,150,0,0" VerticalAlignment="Top" Width="60" Click="button_copy_Click"/>
+        <Button x:Name="button_parseRacenetApi" Content="Parse via Racenet API" HorizontalAlignment="Left" Margin="105,48,0,0" VerticalAlignment="Top" Width="148" Click="button_parseRacenetApi_Click"/>
+        <TextBox x:Name="textBox_leagueUrl" HorizontalAlignment="Left" Margin="25,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="585" Height="20"/>
+        <TextBlock IsHitTestVisible="False" Text="League URL" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="38,25,0,0" Height="18" Foreground="DarkGray" FontSize="11" >
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=textBox_leagueUrl}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <TextBox x:Name="textBox_eventId" HorizontalAlignment="Left" Margin="25,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74" Height="20"/>
+        <TextBlock IsHitTestVisible="False" Text="Event ID" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,50,0,0" Height="18" Foreground="DarkGray" FontSize="11" >
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -41,10 +54,10 @@
             </TextBlock.Style>
         </TextBlock>
 
-        <GroupBox x:Name="groupBox3" Header="Elo Rankings" HorizontalAlignment="Left" Height="53" Margin="247,57,0,0" VerticalAlignment="Top" Width="154"/>
-        <Button x:Name="button_parseEloMatch" Content="Parse" HorizontalAlignment="Left" Margin="258,77,0,0" VerticalAlignment="Top" Width="40" Click="button_parseEloMatch_Click"/>
-        <Button x:Name="button_saveEloData" Content="Save" HorizontalAlignment="Left" Margin="303,77,0,0" VerticalAlignment="Top" Width="40" Click="button_saveEloData_Click"/>
-        <Button x:Name="button_printEloRankings" Content="Print" HorizontalAlignment="Left" Margin="348,77,0,0" VerticalAlignment="Top" Width="40" Click="button_printEloRankings_Click"/>
+        <GroupBox x:Name="groupBox3" Header="Elo Rankings" HorizontalAlignment="Left" Height="53" Margin="466,130,0,0" VerticalAlignment="Top" Width="154"/>
+        <Button x:Name="button_parseEloMatch" Content="Parse" HorizontalAlignment="Left" Margin="477,150,0,0" VerticalAlignment="Top" Width="40" Click="button_parseEloMatch_Click"/>
+        <Button x:Name="button_saveEloData" Content="Save" HorizontalAlignment="Left" Margin="522,150,0,0" VerticalAlignment="Top" Width="40" Click="button_saveEloData_Click"/>
+        <Button x:Name="button_printEloRankings" Content="Print" HorizontalAlignment="Left" Margin="567,150,0,0" VerticalAlignment="Top" Width="40" Click="button_printEloRankings_Click"/>
 
     </Grid>
 </Window>
