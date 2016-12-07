@@ -3,6 +3,16 @@ A parser for Dirt Rally league results
 
 Some basic instructions, more detailed docs are coming
 
+**Parsing via Racenet API:**
+
+All results can now be parsed via the Racenet API, this can also pull the stage data from rallies that have expired and are no longer available via dirtgame.com. The event ID can be found in the page source of the event on the event page at dirtgame.com.
+
+Simply put the event ID into the "Parse via Racenet" input and all stages will be pulled and parsed!
+
+
+
+**Parsing via text:**
+
 1) Copy the results of a stage from the RaceNet site and paste into the large text box in the app, then click "Parse Stage Data"
 
 2) Repeat step one for each stage in your event (don't combine or split up stages, each parse is expected to be it's own stage)

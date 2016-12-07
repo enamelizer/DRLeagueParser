@@ -54,5 +54,10 @@
             </TextBlock.Style>
         </TextBlock>
 
+        <GroupBox x:Name="groupBox3" Header="Elo Rankings" HorizontalAlignment="Left" Height="53" Margin="466,130,0,0" VerticalAlignment="Top" Width="154"/>
+        <Button x:Name="button_parseEloMatch" Content="Parse" HorizontalAlignment="Left" Margin="477,150,0,0" VerticalAlignment="Top" Width="40" Click="button_parseEloMatch_Click"/>
+        <Button x:Name="button_saveEloData" Content="Save" HorizontalAlignment="Left" Margin="522,150,0,0" VerticalAlignment="Top" Width="40" Click="button_saveEloData_Click"/>
+        <Button x:Name="button_printEloRankings" Content="Print" HorizontalAlignment="Left" Margin="567,150,0,0" VerticalAlignment="Top" Width="40" Click="button_printEloRankings_Click"/>
+
     </Grid>
 </Window>

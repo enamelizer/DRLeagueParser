@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EloHandler.cs" />
     <Compile Include="RacenetApiParser.cs" />
     <Page Include="DRParserTest.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -127,9 +128,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DRTimeCruncher\DRTimeCruncher.csproj">
+    <ProjectReference Include="..\DRNumberCrunchers\DRNumberCrunchers.csproj">
       <Project>{7ff3898c-158c-4723-844a-b983f0270952}</Project>
-      <Name>DRTimeCruncher</Name>
+      <Name>DRNumberCrunchers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
