@@ -28,6 +28,9 @@ namespace DRTimeCruncher
 
         public bool CalculateTimes()
         {
+            if (stages.Count < 1)
+                return true;
+
 			// create lookup tables for comparing times
             var previousStage = new Dictionary<string, DriverTime>();
             var currentStage = new Dictionary<string, DriverTime>();

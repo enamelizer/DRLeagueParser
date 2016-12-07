@@ -8,18 +8,37 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Net;
 
 namespace DRLPTest
 {
-    static class RacenetApiParser
+    public class RacenetApiParser
     {
+        private HttpClient httpClient;
+
+        public RacenetApiParser()
+        {
+            var httpClientHandler = new HttpClientHandler();
+            httpClientHandler.CookieContainer = new CookieContainer();
+            httpClient = new HttpClient(httpClientHandler, true);
+        }
+
         /// <summary>
         /// Creates the URIs and parses responses into Rally objects
         /// </summary>
-        public static Rally GetRallyData(string eventId, IProgress<int> progress)
+        public Rally GetRallyData(string leagueUrl, string eventId, IProgress<int> progress)
         {
             try
             {
+                // the uri might be able to be null for PC leagues, but is required for console leagues
+                // this sets the session state on the server and stores the cookie with the ASP.NET session ID for later
+                if (!string.IsNullOrWhiteSpace(leagueUrl))
+                {
+                    var mainPageResult = httpClient.GetAsync(leagueUrl).Result;
+                    if (mainPageResult == null || mainPageResult.StatusCode != HttpStatusCode.OK)
+                        throw new Exception("Failed to get data from main league page, error: " + mainPageResult.StatusCode);
+                }
+
                 // example string for reference
                 //string apiUrl = "https://www.dirtgame.com/uk/api/event?assists=any&eventId=95576&group=all&leaderboard=true&nameSearch=&noCache=1463699433315&number=10&page=1&stageId=0&wheel=any";
 
@@ -36,9 +55,9 @@ namespace DRLPTest
                 uriBuilder.Query = query.ToString();
                 var requestUri = uriBuilder.ToString();
 
-                var result = ExecuteRequest(requestUri).Result;
+                var rallyDataResult = ExecuteRequest(requestUri).Result;
 
-                var totalStages = result.TotalStages;
+                var totalStages = rallyDataResult.TotalStages;
                 var rallyData = new Rally();
 
                 // for each stage
@@ -53,31 +72,33 @@ namespace DRLPTest
                     var retryCount = 0;
                     while (currentPage <= totalPages)
                     {
+                        // return what we have, the rally may not have been finished yet
+                        // todo: status messaging?
                         if (retryCount >= 10)
-                            throw new Exception("Racenet returned no entry data");
+                            return rallyData;
 
                         query["page"] = currentPage.ToString();
                         query["stageId"] = i.ToString();        // stage number
                         uriBuilder.Query = query.ToString();
                         requestUri = uriBuilder.ToString();
 
-                        result = ExecuteRequest(requestUri).Result;
+                        rallyDataResult = ExecuteRequest(requestUri).Result;
 
-                        // sometimes we don't get entries, if so, retry the request
-                        if (result == null || result.Entries == null || result.Entries.Count < 1)
+                        // sometimes we don't get entries, if so, retry the request (this might be fixed by storing cookies)
+                        if (rallyDataResult == null || rallyDataResult.Entries == null || rallyDataResult.Entries.Count < 1)
                         {
                             retryCount++;
                             continue;
                         }
 
-                        leaderboardTotal = result.LeaderboardTotal;
-                        totalPages = result.Pages;
+                        leaderboardTotal = rallyDataResult.LeaderboardTotal;
+                        totalPages = rallyDataResult.Pages;
 
                         if (totalPages == 0 || leaderboardTotal == 0)
                             break;
 
                         // for each driver in page
-                        foreach (var entry in result.Entries)
+                        foreach (var entry in rallyDataResult.Entries)
                             stageData.AddDriver(new DriverTime(entry.Position, entry.Name, entry.VehicleName, entry.Time, entry.DiffFirst));
 
                         // increment page
@@ -103,20 +124,17 @@ namespace DRLPTest
         /// <summary>
         /// Performs the web requests
         /// </summary>
-        private static async Task<RacenetRallyData> ExecuteRequest(string requestUri)
+        private async Task<RacenetRallyData> ExecuteRequest(string requestUri)
         {
-            using (var client = new HttpClient())
+            var serializer = new DataContractJsonSerializer(typeof(RacenetRallyData));
+
+            var response = httpClient.GetAsync(requestUri).Result;
+
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                var serializer = new DataContractJsonSerializer(typeof(RacenetRallyData));
-
-                var response = client.GetAsync(requestUri).Result;
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var responseStream = await response.Content.ReadAsStreamAsync();
-                    var racenetStageData = serializer.ReadObject(responseStream) as RacenetRallyData;
-                    return racenetStageData;
-                }
+                var responseStream = await response.Content.ReadAsStreamAsync();
+                var racenetStageData = serializer.ReadObject(responseStream) as RacenetRallyData;
+                return racenetStageData;
             }
 
             return null;
