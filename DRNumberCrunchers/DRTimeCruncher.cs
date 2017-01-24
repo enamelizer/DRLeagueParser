@@ -177,7 +177,7 @@ namespace DRNumberCrunchers
         /// <returns>true</returns>
         public bool AddDriver(DriverTime driverTime)
         {
-			DriverTimes.Add(driverTime.Driver, driverTime);
+			DriverTimes.Add(driverTime.DriverName, driverTime);
             return true;
         }
 
@@ -205,7 +205,8 @@ namespace DRNumberCrunchers
         // raw data supplied by parser
         public int OverallPosition { get; private set; }
         public string Tags { get; private set; }
-        public string Driver { get; private set; }
+        public int PlayerID { get; private set; }
+        public string DriverName { get; private set; }
         public string Vehicle { get; private set; }
         public string OverallTime { get; private set; }
         public string OverallDiffFirst { get; private set; }
@@ -227,11 +228,12 @@ namespace DRNumberCrunchers
         /// Data is the 'raw' string data taken from the results
         /// Tags are optional (not all drivers will have tags)
         /// </summary>
-        public DriverTime(int overallPosition, string driver, string vehicle, string overallTime, string overallDiffFirst, string tags = null)
+        public DriverTime(int overallPosition, int playerID, string driverName, string vehicle, string overallTime, string overallDiffFirst, string tags = null)
         {
             OverallPosition = overallPosition;
             Tags = tags;
-            Driver = driver;
+            PlayerID = playerID;
+            DriverName = driverName;
             Vehicle = vehicle;
             OverallTime = overallTime;
             OverallDiffFirst = overallDiffFirst;

@@ -99,7 +99,7 @@ namespace DRLPTest
 
                         // for each driver in page
                         foreach (var entry in rallyDataResult.Entries)
-                            stageData.AddDriver(new DriverTime(entry.Position, entry.Name, entry.VehicleName, entry.Time, entry.DiffFirst));
+                            stageData.AddDriver(new DriverTime(entry.Position, entry.PlayerId, entry.Name, entry.VehicleName, entry.Time, entry.DiffFirst));
 
                         // increment page
                         currentPage++;

@@ -95,15 +95,15 @@ namespace DRLPTest
 
                 if (splitCount == 5)
                 {
-                    stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), splitLine[1], splitLine[2], splitLine[3], splitLine[4]));
+                    stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), 0, splitLine[1], splitLine[2], splitLine[3], splitLine[4]));
                 }
                 else if (splitCount == 6)
                 {
-                    stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), splitLine[2], splitLine[3], splitLine[4], splitLine[5], splitLine[1]));
+                    stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), 0, splitLine[2], splitLine[3], splitLine[4], splitLine[5], splitLine[1]));
                 }
                 else if (splitCount == 7)
                 {
-                    stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), splitLine[3], splitLine[4], splitLine[5], splitLine[6], splitLine[2]));
+                    stageData.AddDriver(new DriverTime(Int32.Parse(splitLine[0]), 0, splitLine[3], splitLine[4], splitLine[5], splitLine[6], splitLine[2]));
                 }
                 else
                 {
@@ -144,7 +144,7 @@ namespace DRLPTest
             {
                 outputSB.AppendLine("SS" + stageCount);
                 outputSB.AppendLine("Overall");
-                outputSB.AppendLine("Pos, Pos Chng, Name, Vehicle, Time, Diff 1st, Diff Prev");
+                outputSB.AppendLine("Pos, Pos Chng, PlayerID, Name, Vehicle, Time, Diff 1st, Diff Prev");
 
                 List<KeyValuePair<string, DriverTime>> sortedStageData = stage.DriverTimes.ToList();
                 sortedStageData.Sort((x, y) =>
@@ -169,7 +169,8 @@ namespace DRLPTest
                         var formatString = @"hh\:mm\:ss\.fff";
                         var line = driverTime.OverallPosition + "," +
                                    driverTime.CalculatedPositionChange + "," +
-                                   driverTime.Driver + "," +
+                                   driverTime.PlayerID + "," +
+                                   driverTime.DriverName + "," +
                                    driverTime.Vehicle + "," +
                                    driverTime.CalculatedOverallTime.ToString(formatString) + "," +
                                    driverTime.CalculatedOverallDiffFirst.ToString(formatString) + "," +
@@ -202,7 +203,7 @@ namespace DRLPTest
             {
                 outputSB.AppendLine("SS" + stageCount);
                 outputSB.AppendLine("Stage");
-                outputSB.AppendLine("Pos, Name, Vehicle, Time, Diff 1st, Diff Prev");
+                outputSB.AppendLine("Pos, PlayerID, Name, Vehicle, Time, Diff 1st, Diff Prev");
 
                 List<KeyValuePair<string, DriverTime>> sortedStageData = stage.DriverTimes.ToList();
                 sortedStageData.Sort((x, y) =>
@@ -226,7 +227,8 @@ namespace DRLPTest
                     {
                         var formatString = @"mm\:ss\.fff";
                         var line = driverTime.CaclulatedStagePosition + "," +
-                                   driverTime.Driver + "," +
+                                   driverTime.PlayerID + "," +
+                                   driverTime.DriverName + "," +
                                    driverTime.Vehicle + "," +
                                    driverTime.CalculatedStageTime.ToString(formatString) + "," +
                                    driverTime.CalculatedStageDiffFirst.ToString(formatString) + "," +
