@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DRLPTest")]
-[assembly: AssemblyCopyright("Copyright © Aaron DeMarre 2016")]
+[assembly: AssemblyCopyright("Copyright © enamelizer 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
