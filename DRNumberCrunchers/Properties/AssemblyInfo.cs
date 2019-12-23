@@ -9,7 +9,7 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DRNumberCrunchers")]
-[assembly: AssemblyCopyright("Copyright © Aaron DeMarre 2016")]
+[assembly: AssemblyCopyright("Copyright © enamelizer 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
